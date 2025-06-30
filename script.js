@@ -32,6 +32,7 @@ document.getElementById('addTaskBtn').addEventListener('click', () => {
     const newTask = createTask(name, category, deadline, status);
     myTaskList.push(newTask);
     saveTasks();
+    renderFilters(); // Immediately update filter options after adding a task
     renderTaskList();
     clearInputs();
 });
@@ -118,11 +119,11 @@ function updateTaskStatus(id, newStatus) {
         task.id === id ? { ...task, status: newStatus } : task
     );
     saveTasks();
-    renderTaskList();
+    rerenderAll(); // Use rerenderAll to update both filters and task list
 }
 
 // Initial render
-renderTaskList();
+rerenderAll(); // Use rerenderAll instead of renderTaskList()
 
 // Render filter controls
 function renderFilters() {
