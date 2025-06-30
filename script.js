@@ -77,6 +77,7 @@ function renderTaskList(filteredTasks = null) {
                 <th>Deadline</th>
                 <th>Status</th>
                 <th>Update</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -97,6 +98,10 @@ function renderTaskList(filteredTasks = null) {
                         <option value="Completed" ${task.status === 'Completed' ? 'selected' : ''}>Completed</option>
                     </select>
                 </td>
+                <td>
+                    <button class="edit-btn" data-id="${task.id}">Edit</button>
+                    <button class="delete-btn" data-id="${task.id}">Delete</button>
+                </td>
             </tr>
         `;
     });
@@ -112,6 +117,22 @@ function renderTaskList(filteredTasks = null) {
             updateTaskStatus(id, newStatus);
         });
     });
+
+    // Attach event listeners for delete
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const id = e.target.getAttribute('data-id');
+            deleteTask(id);
+        });
+    });
+
+    // Attach event listeners for edit
+    document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const id = e.target.getAttribute('data-id');
+            editTask(id);
+        });
+    });
 }
 
 function updateTaskStatus(id, newStatus) {
@@ -120,6 +141,26 @@ function updateTaskStatus(id, newStatus) {
     );
     saveTasks();
     rerenderAll(); // Use rerenderAll to update both filters and task list
+}
+
+function deleteTask(id) {
+    myTaskList = myTaskList.filter(task => task.id !== id);
+    saveTasks();
+    rerenderAll();
+}
+
+function editTask(id) {
+    const task = myTaskList.find(t => t.id === id);
+    if (!task) return;
+    document.getElementById('taskName').value = task.name;
+    document.getElementById('taskCategory').value = task.category;
+    document.getElementById('taskDeadline').value = task.deadline;
+    document.getElementById('taskStatus').value = task.status;
+
+    // Remove the old task so when user clicks Add, it will be replaced
+    myTaskList = myTaskList.filter(t => t.id !== id);
+    saveTasks();
+    rerenderAll();
 }
 
 // Initial render
