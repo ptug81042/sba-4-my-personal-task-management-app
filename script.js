@@ -122,3 +122,76 @@ function updateTaskStatus(id, newStatus) {
 
 // Initial render
 renderTaskList();
+
+// Render filter controls
+function renderFilters() {
+    const filterSection = document.getElementById('filters');
+    // Get unique categories
+    const categories = [...new Set(myTaskList.map(task => task.category))];
+
+    let html = `
+        <label>Filter by Category:
+            <select id="filterCategory">
+                <option value="">All</option>
+                ${categories.map(cat => `<option value="${cat}">${cat}</option>`).join('')}
+            </select>
+        </label>
+        <label>Filter by Status:
+            <select id="filterStatus">
+                <option value="">All</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+                <option value="Overdue">Overdue</option>
+            </select>
+        </label>
+        <button id="clearFilters">Clear Filters</button>
+    `;
+    filterSection.innerHTML = html;
+
+    document.getElementById('filterCategory').addEventListener('change', applyFilters);
+    document.getElementById('filterStatus').addEventListener('change', applyFilters);
+    document.getElementById('clearFilters').addEventListener('click', () => {
+        document.getElementById('filterCategory').value = '';
+        document.getElementById('filterStatus').value = '';
+        renderTaskList();
+    });
+}
+
+function applyFilters() {
+    const cat = document.getElementById('filterCategory').value;
+    const status = document.getElementById('filterStatus').value;
+    let filtered = myTaskList;
+    if (cat) {
+        filtered = filtered.filter(task => task.category === cat);
+    }
+    if (status) {
+        filtered = filtered.filter(task => task.status === status);
+    }
+
+    renderTaskList(filtered);
+}
+
+renderFilters();
+
+// Update filters after adding or updating tasks
+function renderAll() {
+    renderFilters();
+    renderTaskList();
+}
+
+// Replace renderTaskList() and saveTasks() calls with rerenderAll() in add and update functions:
+document.getElementById('addTaskBtn').addEventListener('click', () => {
+    // ...existing code...
+    myTaskList.push(newTask);
+    saveTasks();
+    rerenderAll();
+    clearInputs();
+});
+
+function updateTaskStatus(id, newStatus) {
+    myTaskList = myTaskList.map(task =>
+        task.id === id ? { ...task, status: newStatus } : task
+    );
+    saveTasks();
+    rerenderAll();
+}
