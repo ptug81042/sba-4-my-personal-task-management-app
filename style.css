@@ -1,0 +1,115 @@
+/* ...existing code... */
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f7f9fa;
+    color: #2d3a4a;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    max-width: 700px;
+    margin: 2rem auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px #c7d0db55;
+    padding: 2rem;
+}
+
+h1 {
+    text-align: center;
+    color: #3a6ea5;
+    margin-bottom: 2rem;
+}
+
+#task-input-section {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#task-input-section input,
+#task-input-section select,
+#task-input-section button {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #b0c4de;
+    font-size: 1rem;
+}
+
+#addTaskBtn {
+    background: #3a6ea5;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+#addTaskBtn:hover {
+    background: #27496d;
+}
+
+.my-task-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.my-task-table th,
+.my-task-table td {
+    border: 1px solid #e0e6ed;
+    padding: 0.7rem;
+    text-align: left;
+}
+
+.my-task-table th {
+    background: #eaf1fb;
+    color: #27496d;
+}
+
+.status {
+    padding: 0.2em 0.7em;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.status.in-progress {
+    background: #fffbe6;
+    color: #b8860b;
+}
+.status.completed {
+    background: #e6ffe6;
+    color: #228b22;
+}
+.status.overdue {
+    background: #ffeaea;
+    color: #c0392b;
+}
+
+#filters {
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+#filters label {
+    font-size: 1rem;
+}
+
+#clearFilters {
+    background: #e0e6ed;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #27496d;
+    font-weight: bold;
+}
+#clearFilters:hover {
+    background: #c7d0db;
+}
+
+/* ...existing code... */
