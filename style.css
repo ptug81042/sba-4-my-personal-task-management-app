@@ -85,27 +85,123 @@ h1 {
     color: #c0392b;
 }
 
-#filters {
+/* Fade in animation */
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(10px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+.my-task-table tbody tr {
+  animation: fadeIn 0.4s ease forwards;
+  transition: background-color 0.3s ease;
+}
+
+/* Drag-over highlight */
+.my-task-table tbody tr.drag-over {
+  background-color: #d6eaff;
+  border-left: 4px solid #3a6ea5;
+}
+
+/* Custom checkbox style */
+.status-checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.status-checkbox:checked + .status-label {
+  text-decoration: line-through;
+  color: #999;
+}
+
+/* Dark mode styles */
+body.dark-mode {
+  background: #121212;
+  color: #eee;
+}
+
+body.dark-mode main {
+  background: #1e1e1e;
+  box-shadow: 0 2px 12px #000000cc;
+}
+
+body.dark-mode h1 {
+  color: #8ab4f8;
+}
+
+body.dark-mode .my-task-table th {
+  background: #333;
+  color: #8ab4f8;
+}
+
+body.dark-mode .my-task-table td, 
+body.dark-mode .my-task-table th {
+  border-color: #444;
+}
+
+body.dark-mode .status.in-progress {
+  background: #3a3a00;
+  color: #f0e68c;
+}
+
+body.dark-mode .status.completed {
+  background: #003300;
+  color: #90ee90;
+}
+
+body.dark-mode .status.overdue {
+  background: #4b0000;
+  color: #ff6b6b;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  #task-input-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  #task-input-section input,
+  #task-input-section select,
+  #task-input-section button {
+    width: 100%;
+  }
+  .my-task-table thead {
+    display: none;
+  }
+  .my-task-table tbody tr {
+    display: block;
     margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  .my-task-table tbody tr td {
     display: flex;
-    gap: 1rem;
-    justify-content: center;
-    align-items: center;
-}
-
-#filters label {
-    font-size: 1rem;
-}
-
-#clearFilters {
-    background: #e0e6ed;
+    justify-content: space-between;
+    padding: 0.3rem 0;
     border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    cursor: pointer;
-    color: #27496d;
+  }
+  .my-task-table tbody tr td::before {
+    content: attr(data-label);
     font-weight: bold;
+  }
 }
-#clearFilters:hover {
-    background: #c7d0db;
+
+/* Dark mode toggle button */
+#darkModeToggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: #3a6ea5;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+  z-index: 1000;
+}
+#darkModeToggle:hover {
+  background: #27496d;
 }

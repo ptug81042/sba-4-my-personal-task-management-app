@@ -20,7 +20,7 @@ function rerenderAll() {
     updateOverdueStatus();
     const categories = [...new Set(tasks.map(t => t.category))];
     renderFilters(categories, applyFilters, clearFilters);
-    renderTaskList(tasks, updateTaskStatus, editTask, deleteTask);
+    renderTaskList(tasks, updateTaskStatus, editTask, deleteTask, toggleTaskComplete, onDragStart, onDragOver, onDrop);
     saveTasks(tasks);
 }
 
@@ -70,7 +70,7 @@ function applyFilters() {
     let filtered = tasks;
     if (cat) filtered = filtered.filter(t => t.category === cat);
     if (status) filtered = filtered.filter(t => t.status === status);
-    renderTaskList(filtered, updateTaskStatus, editTask, deleteTask);
+    renderTaskList(filtered, updateTaskStatus, editTask, deleteTask, toggleTaskComplete, onDragStart, onDragOver, onDrop);
 }
 
 function clearFilters() {
@@ -78,6 +78,57 @@ function clearFilters() {
     document.getElementById('filterStatus').value = '';
     rerenderAll();
 }
+
+// Drag and drop variables
+let draggedId = null;
+
+function onDragStart(e) {
+    draggedId = e.currentTarget.getAttribute('data-id');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', draggedId);
+}
+
+function onDragOver(e) {
+    e.preventDefault();
+    const target = e.currentTarget;
+    target.classList.add('drag-over');
+}
+
+function onDrop(e) {
+    e.preventDefault();
+    const target = e.currentTarget;
+    target.classList.remove('drag-over');
+    const droppedId = target.getAttribute('data-id');
+    if (draggedId === droppedId) return;
+
+    // Reorder tasks array
+    const draggedIndex = tasks.findIndex(t => t.id === draggedId);
+    const droppedIndex = tasks.findIndex(t => t.id === droppedId);
+    const [draggedTask] = tasks.splice(draggedIndex, 1);
+    tasks.splice(droppedIndex, 0, draggedTask);
+
+    draggedId = null;
+    rerenderAll();
+}
+
+// Toggle task completion with checkbox
+function toggleTaskComplete(id, completed) {
+    tasks = tasks.map(t => 
+        t.id === id ? {...t, status: completed ? 'Completed' : 'In Progress'} : t
+    );
+    rerenderAll();
+}
+
+// Dark mode toggle
+const darkModeBtn = document.getElementById('darkModeToggle');
+darkModeBtn.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    if (document.body.classList.contains('dark-mode')) {
+        darkModeBtn.textContent = 'Light Mode';
+    } else {
+        darkModeBtn.textContent = 'Dark Mode';
+    }
+});
 
 // Initialize app
 rerenderAll();
