@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="style.css" />
         <title>My Custom Task Tracker</title>
     </head>
     <body>
         <main>
             <h1>My Custom Task Tracker</h1>
             <section id="task-input-section">
-                <input type="text" id="taskName" placeholder="Task Title">
-                <input type="text" id="taskCategory" placeholder="Category (e.g., Home, Work)">
-                <input type="date" id="taskDeadline">
+                <input type="text" id="taskName" placeholder="Task Title" />
+                <input type="text" id="taskCategory" placeholder="Category (e.g., Home, Work)" />
+                <input type="date" id="taskDeadline" />
                 <select id="taskStatus">
                     <option value="In Progress">In Progress</option>
                     <option value="Completed">Completed</option>
@@ -20,12 +20,12 @@
                 <button id="addTaskBtn">Add Task</button>
             </section>
             <section id="filters">
-                <!-- Filters will be added later -->
+                <!-- Filters will be added here -->
             </section>
             <section id="task-list-section">
                 <!-- Task list will be rendered here -->
             </section>
         </main>
-        <script src="script.js"></script>
+        <script type="module" src="app.js"></script>
     </body>
 </html>
