@@ -1,9 +1,40 @@
 // ui.js
+
 export function clearInputs() {
     document.getElementById('taskName').value = '';
     document.getElementById('taskCategory').value = '';
     document.getElementById('taskDeadline').value = '';
     document.getElementById('taskStatus').value = 'In Progress';
+}
+
+export function renderFilters(categories, onApplyFilters, onClearFilters) {
+    const filtersSection = document.getElementById('filters');
+
+    const statusOptions = ['In Progress', 'Completed', 'Overdue'];
+
+    let categoryOptionsHTML = `<option value="">All Categories</option>`;
+    categories.forEach(cat => {
+        categoryOptionsHTML += `<option value="${cat}">${cat}</option>`;
+    });
+
+    let statusOptionsHTML = `<option value="">All Statuses</option>`;
+    statusOptions.forEach(status => {
+        statusOptionsHTML += `<option value="${status}">${status}</option>`;
+    });
+
+    filtersSection.innerHTML = `
+        <label for="filterCategory">Category: </label>
+        <select id="filterCategory">${categoryOptionsHTML}</select>
+
+        <label for="filterStatus">Status: </label>
+        <select id="filterStatus">${statusOptionsHTML}</select>
+
+        <button id="applyFiltersBtn">Apply Filters</button>
+        <button id="clearFiltersBtn">Clear Filters</button>
+    `;
+
+    document.getElementById('applyFiltersBtn').onclick = onApplyFilters;
+    document.getElementById('clearFiltersBtn').onclick = onClearFilters;
 }
 
 export function renderTaskList(tasks, onStatusChange, onEdit, onDelete, onToggleComplete, onDragStart, onDragOver, onDrop) {
