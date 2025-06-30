@@ -9,11 +9,11 @@ if (localStorage.getItem('myTaskList')) {
 // Function to create a new task object
 function createTask(name, category, deadline, status) {
     return {
-        id: Date.now() + Math.random().toString(16).slice(2), // Unique id
-        name: name,
-        category: category,
-        deadline: deadline,
-        status: status
+        id: Date.now() + Math.random().toString(16).slice(2), // unique id
+        name,
+        category,
+        deadline,
+        status
     };
 }
 
@@ -40,7 +40,7 @@ function clearInputs() {
     document.getElementById('taskName').value = '';
     document.getElementById('taskCategory').value = '';
     document.getElementById('taskDeadline').value = '';
-    document.getElementById('taskStatus').value = 'In Progrees';
+    document.getElementById('taskStatus').value = 'In Progress';
 }
 
 function saveTasks() {
@@ -68,18 +68,17 @@ function renderTaskList(filteredTasks = null) {
         return;
     }
 
-    let html = `
-        <table class="my-task-table">
-            <thead>
-                <tr>
-                    <th>Task</th>
-                    <th>Category</th>
-                    <th>Deadline</th>
-                    <th>Status</th>
-                    <th>Update</th>
-                </tr>
-            </thead>
-            <tbody>
+    let html = `<table class="my-task-table">
+        <thead>
+            <tr>
+                <th>Task</th>
+                <th>Category</th>
+                <th>Deadline</th>
+                <th>Status</th>
+                <th>Update</th>
+            </tr>
+        </thead>
+        <tbody>
     `;
 
     tasksToShow.forEach(task => {
@@ -89,7 +88,7 @@ function renderTaskList(filteredTasks = null) {
                 <td>${task.category}</td>
                 <td>${task.deadline}</td>
                 <td>
-                    <span class="status ${task.status.replace(' ', '_').toLowerCase()}">${task.status}</span>
+                    <span class="status ${task.status.replace(' ', '-').toLowerCase()}">${task.status}</span>
                 </td>
                 <td>
                     <select data-id="${task.id}" class="status-changer">
@@ -115,7 +114,9 @@ function renderTaskList(filteredTasks = null) {
 }
 
 function updateTaskStatus(id, newStatus) {
-    myTaskList = myTaskList.map(task => task.id === id ? { ...task, status: newStatus } : task);
+    myTaskList = myTaskList.map(task =>
+        task.id === id ? { ...task, status: newStatus } : task
+    );
     saveTasks();
     renderTaskList();
 }
@@ -128,7 +129,6 @@ function renderFilters() {
     const filterSection = document.getElementById('filters');
     // Get unique categories
     const categories = [...new Set(myTaskList.map(task => task.category))];
-
     let html = `
         <label>Filter by Category:
             <select id="filterCategory">
@@ -161,37 +161,15 @@ function applyFilters() {
     const cat = document.getElementById('filterCategory').value;
     const status = document.getElementById('filterStatus').value;
     let filtered = myTaskList;
-    if (cat) {
-        filtered = filtered.filter(task => task.category === cat);
-    }
-    if (status) {
-        filtered = filtered.filter(task => task.status === status);
-    }
-
+    if (cat) filtered = filtered.filter(task => task.category === cat);
+    if (status) filtered = filtered.filter(task => task.status === status);
     renderTaskList(filtered);
 }
 
 renderFilters();
 
 // Update filters after adding or updating tasks
-function renderAll() {
+function rerenderAll() {
     renderFilters();
     renderTaskList();
-}
-
-// Replace renderTaskList() and saveTasks() calls with rerenderAll() in add and update functions:
-document.getElementById('addTaskBtn').addEventListener('click', () => {
-    // ...existing code...
-    myTaskList.push(newTask);
-    saveTasks();
-    rerenderAll();
-    clearInputs();
-});
-
-function updateTaskStatus(id, newStatus) {
-    myTaskList = myTaskList.map(task =>
-        task.id === id ? { ...task, status: newStatus } : task
-    );
-    saveTasks();
-    rerenderAll();
 }
