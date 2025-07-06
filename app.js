@@ -3,7 +3,10 @@ import { saveTasks, loadTasks } from './storage.js';
 import { clearInputs, renderTaskList, renderFilters } from './ui.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-  let tasks = loadTasks();
+  // Convert loaded plain objects to Task instances
+  let tasks = loadTasks().map(
+    t => new Task(t.name, t.category, t.deadline, t.status)
+  );
 
   function updateOverdueStatus() {
     const today = new Date().toISOString().split('T')[0];
